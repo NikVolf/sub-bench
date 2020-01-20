@@ -1,0 +1,27 @@
+{
+  "name": "polkaprofile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "PolkadotStakeProfile.ts",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "bpc"
+  },
+  "dependencies": {
+    "@polkadot/api": "0.95.2",
+    "@polkadot/keyring": "1.6.1",
+    "@polkadot/types": "0.95.2",
+    "@types/node": "^12.12.6",
+    "@types/node-fetch": "^2.5.3",
+    "@types/text-encoding": "0.0.35",
+    "node-fetch": "^2.6.0",
+    "polkadot": "^1.0.0",
+    "tank.bench-common": "4.0.7",
+    "text-encoding": "^0.7.0"
+  },
+  "resolutions": {
+    "@polkadot/api": "0.95.2",
+    "@polkadot/keyring": "1.6.1",
+    "@polkadot/types": "0.95.2"
+  }
+}
