@@ -2,7 +2,7 @@
 
 You can use this bench tool to run against `substrate --dev` node. No configuration needed!
 
-Having your substrate started in `--dev` node with default websockets config, run here
+Having your substrate started in `--dev` mode with default websockets config, run here
 
 ```
 npm install
