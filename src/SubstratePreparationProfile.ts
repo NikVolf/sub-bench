@@ -7,7 +7,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
 
     static readonly fileName = __filename;
 
-    static USERS_COUNT = 2000;
+    static USERS_COUNT = 1000;
 
     // noinspection JSMethodCanBeStatic
     private stringSeed(seed: number): string {
@@ -82,12 +82,12 @@ export default class SubstratePreparationProfile extends PreparationProfile {
             await transfer.signAndSend(aliceKeyPair, { nonce: aliceNonce });
             aliceNonce ++;
 
-            if (seed % 100 == 0) {
+            if (seed % 200 == 199) {
                 // give node some time to breath
                 function timeout(ms: number) {
                     return new Promise(resolve => setTimeout(resolve, ms));
                 }
-                await timeout(5000);
+                await timeout(6000);
             }
         }
         this.logger.log("All users endowed from Alice account!");
