@@ -75,15 +75,6 @@ export default class SubstrateBenchProfile extends BenchProfile {
         let receiverSeed = this.getRandomReceiverSeed(senderSeed);
         let receiverKeyringPair = this.keyPairs.get(receiverSeed)!;
 
-        /// Logging TODO: figure out levels
-        // let senderUri = this.stringSeed(senderSeed);
-        // let senderPublic = senderKeyPair.address;
-        // let receiverUri = this.stringSeed(receiverSeed);
-        // let receiverPublic = receiverKeyringPair.address;
-
-        // this.logger.log(
-        //     `${senderUri} (${senderPublic}) -> ${receiverUri} (${receiverPublic}) / nonce ${nonce}`
-        // );
 
         let transfer = this.api.tx.balances.transfer(receiverKeyringPair.address, TOKENS_TO_SEND);
         await transfer.signAndSend(senderKeyPair, {nonce});
