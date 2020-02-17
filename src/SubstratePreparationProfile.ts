@@ -66,7 +66,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
 
         this.logger.log("Endowing all users from Alice account...");
         let aliceKeyPair = keyring.addFromUri("//Alice");
-        let aliceNonce = (await api.query.system.accountNonce(aliceKeyPair.address)).toNumber();
+        let aliceNonce = (await api.query.system.account(aliceKeyPair.address))[0].toNumber();
         this.logger.log("Alice nonce is " + aliceNonce);
 
         for (let seed  = firstSeed; seed <= lastSeed; seed++) {
