@@ -53,7 +53,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
             getNoncesPromises.push(new Promise<number>(async resolve => {
                 let stringSeed = this.stringSeed(seed);
                 let keys = keyring.addFromUri(stringSeed);
-                let nonce = <Index>await api.query.system.accountNonce(keys.address);
+                let nonce = <Index>(await api.query.system.account(keys.address))[0]
                 resolve(nonce.toNumber());
             }));
         }
