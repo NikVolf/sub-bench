@@ -53,8 +53,8 @@ export default class SubstratePreparationProfile extends PreparationProfile {
             getNoncesPromises.push(new Promise<number>(async resolve => {
                 let stringSeed = this.stringSeed(seed);
                 let keys = keyring.addFromUri(stringSeed);
-                let nonce = <Index>(await api.query.system.account(keys.address))[0]
-                resolve(nonce.toNumber());
+                let nonce = (await api.query.system.account(keys.address)).nonce.toNumber();
+                resolve(nonce);
             }));
         }
 
@@ -66,7 +66,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
 
         this.logger.log("Endowing all users from Alice account...");
         let aliceKeyPair = keyring.addFromUri("//Alice");
-        let aliceNonce = (await api.query.system.account(aliceKeyPair.address))[0].toNumber();
+        let aliceNonce = (await api.query.system.account(aliceKeyPair.address)).nonce.toNumber();
         this.logger.log("Alice nonce is " + aliceNonce);
 
         for (let seed  = firstSeed; seed <= lastSeed; seed++) {

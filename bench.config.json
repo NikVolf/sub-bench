@@ -7,8 +7,8 @@
   "prometheusTelemetry": {
     "enable": false
   },
-  "tps": 1000,
-  "threadsAmount": 4,
-  "maxActivePromises": 8,
+  "tps": 3000,
+  "threadsAmount": 16,
+  "maxActivePromises": 256,
   "telemetryStepInterval": 10000
 }
