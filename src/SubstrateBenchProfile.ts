@@ -1,9 +1,12 @@
-import {BenchProfile} from "tank.bench-common";
+import {BenchProfile, TransactionResult} from "tank.bench-common";
 import {Keyring} from "@polkadot/keyring";
 import {ApiPromise, WsProvider} from "@polkadot/api";
 import {KeyringPair} from "@polkadot/keyring/types";
+import { SubmittableExtrinsic } from "@polkadot/api/types";
 
 const TOKENS_TO_SEND = 1;
+
+const PREGENERATE_TRANSACTIONS = 10000;
 
 export default class SubstrateBenchProfile extends BenchProfile {
 
@@ -17,6 +20,9 @@ export default class SubstrateBenchProfile extends BenchProfile {
 
     private usersConfig: any;
 
+    private preparedTransactions: any[] = [];
+
+    private currentTransactionIndex: any = 0;
 
     // noinspection JSMethodCanBeStatic
     private stringSeed(seed: number): string {
@@ -52,6 +58,21 @@ export default class SubstrateBenchProfile extends BenchProfile {
             let keypair = this.keyring.addFromUri(this.stringSeed(seed));
             this.keyPairs.set(seed, keypair);
         }
+
+        this.logger.log(`Pregenerating ${PREGENERATE_TRANSACTIONS} transactions for thread ${threadId}`);
+
+        for (let tx = 0; tx < PREGENERATE_TRANSACTIONS; tx++) {
+            let senderSeed = this.getRandomSenderSeed();
+            let senderKeyPair = this.keyPairs.get(senderSeed)!;
+            let nonce = Atomics.add(this.userNoncesArray, senderSeed, 1);
+            let receiverSeed = this.getRandomReceiverSeed(senderSeed);
+            let receiverKeyringPair = this.keyPairs.get(receiverSeed)!;
+
+            let transfer = this.api.tx.balances.transfer(receiverKeyringPair.address, TOKENS_TO_SEND);
+            let signedTransaction = transfer.sign(senderKeyPair, {nonce});
+
+            this.preparedTransactions.push({ from: senderSeed, to: receiverSeed, signed: signedTransaction, nonce });
+        }
     }
 
     private getRandomReceiverSeed(senderSeed: number) {
@@ -69,15 +90,11 @@ export default class SubstrateBenchProfile extends BenchProfile {
     }
 
     async commitTransaction(uniqueData: string) {
-        let senderSeed = this.getRandomSenderSeed();
-        let senderKeyPair = this.keyPairs.get(senderSeed)!;
-        let nonce = Atomics.add(this.userNoncesArray, senderSeed - this.usersConfig.firstSeed, 1);
-        let receiverSeed = this.getRandomReceiverSeed(senderSeed);
-        let receiverKeyringPair = this.keyPairs.get(receiverSeed)!;
+        let transaction = this.preparedTransactions[this.currentTransactionIndex];
+        this.currentTransactionIndex += 1;
+        //this.logger.log(`returning ${transaction.from}->${transaction.to}(${transaction.nonce})`);
 
-
-        let transfer = this.api.tx.balances.transfer(receiverKeyringPair.address, TOKENS_TO_SEND);
-        await transfer.signAndSend(senderKeyPair, {nonce});
+        await transaction.signed.send();
 
         return {code: 10, error: null}
     }

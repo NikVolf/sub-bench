@@ -7,7 +7,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
 
     static readonly fileName = __filename;
 
-    static USERS_COUNT = 1000;
+    static USERS_COUNT = 100;
 
     // noinspection JSMethodCanBeStatic
     private stringSeed(seed: number): string {

@@ -2,13 +2,13 @@
   "logLevel": 3,
   "stopOn": {
     "error": "print",
-    "processedTransactions": 10000
+    "processedTransactions": 20000
   },
   "prometheusTelemetry": {
     "enable": false
   },
-  "tps": 3000,
-  "threadsAmount": 16,
+  "tps": 1500,
+  "threadsAmount": 4,
   "maxActivePromises": 256,
   "telemetryStepInterval": 10000
 }
