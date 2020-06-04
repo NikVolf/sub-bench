@@ -7,7 +7,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
 
     static readonly fileName = __filename;
 
-    static USERS_COUNT = 100;
+    static USERS_COUNT = 200;
 
     // noinspection JSMethodCanBeStatic
     private stringSeed(seed: number): string {
@@ -73,7 +73,7 @@ export default class SubstratePreparationProfile extends PreparationProfile {
             let keypair = keyring.addFromUri(this.stringSeed(seed));
 
             // should be greater than existential deposit.
-            let transfer = api.tx.balances.transfer(keypair.address, 1000000000000000);
+            let transfer = api.tx.balances.transfer(keypair.address, '100000000000000000');
 
             let receiverSeed = this.stringSeed(seed);
             this.logger.log(

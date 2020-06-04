@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from "@polkadot/api/types";
 
 const TOKENS_TO_SEND = 1;
 
-const PREGENERATE_TRANSACTIONS = 10000;
+const PREGENERATE_TRANSACTIONS = 21000;
 
 export default class SubstrateBenchProfile extends BenchProfile {
 
@@ -30,8 +30,8 @@ export default class SubstrateBenchProfile extends BenchProfile {
     }
 
     private getRandomSeed(): number {
-        let firstSeed = this.benchConfig.usersConfig.firstSeed;
-        let lastSeed = this.benchConfig.usersConfig.lastSeed;
+        let firstSeed = 25 * this.threadId;
+        let lastSeed = 25*(this.threadId+1)-1;
 
         return Math.floor(Math.random() * (lastSeed - firstSeed + 1)) + firstSeed;
     }
