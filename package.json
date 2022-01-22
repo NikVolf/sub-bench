@@ -27,7 +27,7 @@
     "@types/node": "^12.12.43",
     "@types/node-fetch": "^2.5.7",
     "@types/text-encoding": "0.0.35",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "polkadot": "^1.0.0",
     "tank.bench-common": "4.0.7",
     "text-encoding": "^0.7.0"
